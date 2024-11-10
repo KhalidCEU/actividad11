@@ -3,22 +3,39 @@ package dominio;
 import java.io.Serializable;
 
 public class Contacto implements Serializable {
-    String nombre;
-    String numeroDeTelefono;
+    private String nombre;
+    private String telefono;
 
     Contacto() {}
 
-    public Contacto(String nombre, String numeroDeTelefono) {
+    public Contacto(String nombre, String telefono) {
         this.nombre = nombre;
-        this.numeroDeTelefono = numeroDeTelefono;
+        this.telefono = telefono;
+    }
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public String getTelefono() {
+        return this.telefono;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Nombre: " ).append(this.nombre).append("\n")
+        sb.append("Nombre: " ).append(getTelefono())
+        .append("\n")
         .append("Numero de telefono: ")
-        .append(this.numeroDeTelefono);
+        .append(getNombre());
 
         return sb.toString();
     }
