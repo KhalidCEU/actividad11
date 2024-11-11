@@ -5,18 +5,45 @@ import java.io.Serializable;
 
 import java.io.FileWriter;
 
+/**
+ * Representa una libreta de contactos.
+ * Esta clase gestiona una colección de objetos Contacto, permitiendo
+ * añadir, borrar, modificar y listar contactos.
+ *
+ * Implementa Serializable para permitir la persistencia de la libreta completa.
+ */
 public class Libreta implements Serializable {
+    /**
+     * Lista de contactos almacenados en la libreta.
+     * Se usa un ArrayList para permitir un numero variable de contactos
+     * y facilitar la adición, eliminación y modificación de los mismos.
+     */
     private ArrayList<Contacto> contactos;
 
+    /**
+     * Construye un nuevo objeto Libreta con una
+     * lista vacia de contactos.
+     */
     public Libreta() {
         this.contactos = new ArrayList<>();
     }
 
+    /**
+     * Añade un nuevo contacto a la libreta.
+     *
+     * @param c el objeto Contacto a añadir a la libreta
+     * @return esta Libreta
+     */
     public Libreta annadir(Contacto c) {
         this.contactos.add(c);
         return this;
     }
 
+    /**
+     * Borra un contacto existente de la libreta a partir de su nombre.
+     *
+     * @param nombreContacto el nombre del contacto que queremos borrar
+     */
     public void borrar(String nombreContacto) {
         Contacto contacto = buscarPorNombre(nombreContacto);
 
@@ -28,6 +55,13 @@ public class Libreta implements Serializable {
         }
     }
 
+    /**
+     * Modifica un contacto de la libreta.
+     *
+     * @param nombreContacto el nombre del contacto que se desea modificar
+     * @param nuevoNombre el nuevo nombre que se asignará al contacto
+     * @param nuevoTelefono el nuevo numero de telefono que se asignará al contacto
+     */
     public void modificar(String nombreContacto, String nuevoNombre, String nuevoTelefono) {
         Contacto contacto = buscarPorNombre(nombreContacto);
 
@@ -40,6 +74,12 @@ public class Libreta implements Serializable {
         }
     }
 
+    /**
+     * Busca un contacto en la libreta por su nombre.
+     *
+     * @param nombre el nombre del contacto a buscar
+     * @return el objeto Contacto si se encuentra, o null si no existe ningun contacto con ese nombre
+     */
     private Contacto buscarPorNombre(String nombre) {
         for (Contacto c : contactos) {
             if (c.getNombre().equalsIgnoreCase(nombre)) {
@@ -49,6 +89,11 @@ public class Libreta implements Serializable {
         return null;
     }
 
+    /**
+     * Exporta todos los contactos de la libreta a un archivo CSV.
+     *
+     * @param nombreFichero el nombre del archivo CSV donde se exportarán los contactos
+     */
     public void exportar(String nombreFichero) {
         try (FileWriter writer = new FileWriter(nombreFichero)) {
             writer.append("Nombre,Teléfono\n");
@@ -66,6 +111,13 @@ public class Libreta implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una representación en String de todos los contactos en la libreta.
+     *
+     * @return un String que contiene la información de todos los contactos,
+     *         cada uno en su propia línea, con una línea en blanco entre
+     *         contactos.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
