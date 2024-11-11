@@ -107,12 +107,12 @@ public class Interfaz {
             System.out.println("Bienvenido a la Libreta de Contactos\n");
         }
         System.out.println("Comandos disponibles:");
-        System.out.println("  add nombre teléfono                           : para añadir un contacto");
-        System.out.println("  borrar nombre                                 : para borrar un contacto");
-        System.out.println("  modificar nombre nuevoNombre nuevoTelefono    : para modificar un contacto");
-        System.out.println("  exportar                                      : para exportar los contactos a formato CSV");
-        System.out.println("  list                                          : para listar todos los contactos");
-        System.out.println("  exit                                          : para salir");
+        System.out.println("  add <nombre> <teléfono>                           : para añadir un contacto");
+        System.out.println("  borrar <nombre>                                   : para borrar un contacto");
+        System.out.println("  modificar <nombre> <nuevoNombre> <nuevoTelefono>  : para modificar un contacto");
+        System.out.println("  list                                              : para listar todos los contactos");
+        System.out.println("  exportar                                          : para exportar los contactos a formato CSV");
+        System.out.println("  exit                                              : para salir");
         System.out.print("\n");
     }
 
