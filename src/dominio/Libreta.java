@@ -1,9 +1,12 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.io.Serializable;
 
 import java.io.FileWriter;
+
+import excepciones.*;
 
 /**
  * Representa una libreta de contactos.
@@ -34,8 +37,19 @@ public class Libreta implements Serializable {
      * @param c el objeto Contacto a añadir a la libreta
      * @return esta Libreta
      */
-    public Libreta annadir(Contacto c) {
+    public Libreta annadir(Contacto c) throws ContactoDuplicado, MismoNombre  {
+        for (Contacto contactoExistente : this.contactos) {
+            if (c.getNombre().equals(contactoExistente.getNombre())) {
+                if (c.getTelefono().equals(contactoExistente.getTelefono())) {
+                    throw new ContactoDuplicado(c);
+                } else {
+                    throw new MismoNombre(c);
+                }
+            }
+        }
+
         this.contactos.add(c);
+        System.out.println("Contacto añadido: " + c.getNombre() + " - " + c.getTelefono());
         return this;
     }
 

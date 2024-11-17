@@ -1,6 +1,7 @@
 package dominio;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Representa un contacto en la libreta de contactos.
@@ -73,6 +74,19 @@ public class Contacto implements Serializable {
         this.telefono = telefono;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Contacto contacto = (Contacto) obj;
+
+        return Objects.equals(nombre, contacto.nombre) &&
+               Objects.equals(telefono, contacto.telefono);
+    }
 
     /**
      * Devuelve una representacion en String de este Contacto.

@@ -2,6 +2,7 @@ package interfaz;
 
 import dominio.Contacto;
 import dominio.Libreta;
+import excepciones.*;
 
 import java.util.Scanner;
 
@@ -38,32 +39,89 @@ public class Interfaz {
      */
     public void leerEntrada(String entrada) {
         String[] input = entrada.split(" ");
+        String firstArg = input[0].toLowerCase();
 
-        if (input[0].equalsIgnoreCase("ayuda") && input.length == 1)
+        if (firstArg.equals("ayuda") && input.length == 1) {
             printAyuda(false);
+            return;
+        }
 
-        if (input[0].equalsIgnoreCase("add") && input.length == 3) {
+        if (firstArg.equals("exportar") && input.length == 1) {
+            libreta.exportar(FicheroCSV);
+            return;
+        }
+
+        if (firstArg.equals("add") && input.length == 3) {
             String nombre = input[1];
             String telefono = input[2];
             Contacto contacto = new Contacto(nombre, telefono);
-            libreta.annadir(contacto);
-            System.out.println("Contacto añadido: " + nombre + " - " + telefono);
-        } else if (input[0].equalsIgnoreCase("borrar") && input.length == 2) {
+            try {
+                libreta.annadir(contacto);
+            } catch (ContactoDuplicado e) {
+                System.out.println("Error al añadir un contacto: " + e.getMessage());
+                manejarActualizado(contacto);
+            } catch (MismoNombre e) {
+                System.out.println("Error al añadir un contacto: " + e.getMessage());
+                manejarActualizado(contacto);
+            }
+        } else if (firstArg.equals("borrar") && input.length == 2) {
             String nombre = input[1];
             libreta.borrar(nombre);
-        }  else if (input[0].equalsIgnoreCase("modificar") && input.length == 4) {
+        }  else if (firstArg.equals("modificar") && input.length == 4) {
             String nombre = input[1];
             String nuevoNombre = input[2];
             String nuevoTelefono = input[3];
             libreta.modificar(nombre, nuevoNombre, nuevoTelefono);
-        } else if (input[0].equalsIgnoreCase("list") && input.length == 1) {
+        } else if (firstArg.equals("list") && input.length == 1) {
             System.out.println("Lista de contactos:\n");
             System.out.println(libreta.toString());
-        } else if (input[0].equalsIgnoreCase("exportar") && input.length == 1) {
-            libreta.exportar(FicheroCSV);
         } else {
             System.out.println("Comando no reconocido.");
             System.out.println("Use 'add nombre teléfono', 'borrar nombre', 'modificar nombre nuevoNombre nuevoTelefono', 'list' o 'ayuda'.");
+        }
+    }
+
+    public void manejarActualizado(Contacto c) {
+        System.out.println("¿Desea actualizar el contacto existente? [S/N]");
+
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            String nuevoNombre = c.getNombre();
+            String nuevoNumero = c.getTelefono();
+            boolean cambios = false;
+
+            System.out.println("¿Desea actualizar el nombre del contacto? [S/N]");
+
+            if (sc.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Inserte su nuevo nombre: ");
+                nuevoNombre = sc.nextLine();
+                cambios = true;
+            }
+
+            System.out.println("¿Desea actualizar su número? [S/N]");
+
+            if (sc.nextLine().equalsIgnoreCase("s")) {
+                System.out.println("Inserte su nuevo número: ");
+                nuevoNumero = sc.nextLine();
+                cambios = true;
+            }
+
+            if (cambios) {
+                System.out.println("Resumen de cambios:");
+                System.out.println("Nombre: " + c.getNombre() + " -> " + nuevoNombre);
+                System.out.println("Número: " + c.getTelefono() + " -> " + nuevoNumero);
+
+                System.out.println("¿Confirma estos cambios? [S/N]");
+                if (sc.nextLine().equalsIgnoreCase("s")) {
+                    libreta.modificar(c.getNombre(), nuevoNombre, nuevoNumero);
+                    System.out.println("Contacto actualizado correctamente");
+                } else {
+                    System.out.println("Actualizacion cancelada.");
+                }
+            } else {
+                System.out.println("No se realizaron cambios.");
+            }
+        } else {
+            System.out.println("No se realizaron cambios.");
         }
     }
 
