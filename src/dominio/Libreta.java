@@ -36,6 +36,8 @@ public class Libreta implements Serializable {
      *
      * @param c el objeto Contacto a añadir a la libreta
      * @return esta Libreta
+     * @throws ContactoDuplicado si ya existe un contacto con el mismo nombre y número
+     * @throws MismoNombre si ya existe un contacto con el mismo nombre pero diferente número
      */
     public Libreta annadir(Contacto c) throws ContactoDuplicado, MismoNombre  {
         for (Contacto contactoExistente : this.contactos) {

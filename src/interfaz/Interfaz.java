@@ -81,6 +81,16 @@ public class Interfaz {
         }
     }
 
+
+    /**
+     * Maneja la actualización de un contacto cuando ocurre una excepción
+     * de tipo {@link ContactoDuplicado} o {@link MismoNombre}.
+     *
+     * Este método se invoca cuando se intenta añadir un contacto que ya existe (total o parcialmente)
+     * en la libreta. Permite al usuario decidir si desea actualizar el contacto existente y cómo hacerlo.
+     *
+     * @param c El contacto que se intenta añadir y que ha causado la excepción.
+     */
     public void manejarActualizado(Contacto c) {
         System.out.println("¿Desea actualizar el contacto existente? [S/N]");
 
